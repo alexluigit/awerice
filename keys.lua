@@ -65,7 +65,7 @@ awful.keyboard.append_global_keybindings(
       {description = "focus next", group = "awesome"}),
     awful.key({hypkey}, "o", function() awful.client.focus.byidx(-1) end,
       {description = "focus previous", group = "awesome"}),
-    awful.key({hypkey}, "k", function() client.focus:kill() end,
+    awful.key({hypkey}, "Delete", function() client.focus:kill() end,
       {description = "focus previous", group = "awesome"}),
     awful.key({modkey}, "Left", function() awful.tag.viewprev() end,
       {description = "focus the next tag(desktop)", group = "tag"}),
@@ -127,9 +127,9 @@ client.connect_signal(
           {description = "increase master width factor", group = "layout"}),
         awful.key({hypkey}, "Down", function(c) window.resize_dwim(c, "down") end,
           {description = "increase master width factor", group = "layout"}),
-        awful.key({hypkey}, "\\", function(c) c:swap(awful.client.getmaster()) end,
+        awful.key({hypkey}, "=", function(c) c:swap(awful.client.getmaster()) end,
           {description = "become master", group = "client"}),
-        awful.key({hypkey}, "Delete", function(c) c.ontop = not c.ontop end,
+        awful.key({hypkey}, "Backspace", function(c) c.ontop = not c.ontop end,
           {description = "toggle keep top", group = "client"}),
       }
     )
