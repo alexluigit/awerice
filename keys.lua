@@ -101,7 +101,7 @@ awful.keyboard.append_global_keybindings (
       {description = "open lf (in emacs)", group = "launcher"}),
     awful.key({hypkey}, "h", function() awful.spawn("floatwin -t -d 1920x2000+80+80 htop", false) end,
       {description = "open htop", group = "launcher"}),
-    awful.key({hypkey}, "u", function() awful.spawn("murl toggle", false) end,
+    awful.key({hypkey}, "u", function() awful.spawn("murl -P 1088 -d 25%x25%+2870+10 toggle", false) end,
       {description = "toggle murl", group = "launcher"}),
     awful.key({hypkey}, "s", function() awful.spawn("flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots", false) end,
       {description = "take screenshots", group = "launcher"}),
