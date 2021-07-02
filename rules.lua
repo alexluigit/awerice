@@ -24,14 +24,6 @@ ruled.client.connect_signal (
       properties = {floating = true}
     }
     ruled.client.append_rule {
-      id = "ontop",
-      rule_any = {
-        class = {"BraveDev"}
-      },
-      callback = function(c) c:connect_signal("property::fullscreen", function() if not c.fullscreen then c.ontop = true end end) end,
-        properties = {ontop = true}
-    }
-    ruled.client.append_rule {
       id = "desktop",
       rule_any = {
         name = {"YouTube Music"}
