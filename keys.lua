@@ -1,19 +1,20 @@
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local altkey = "Mod1"
 local hypkey = "Mod3"
 local modkey = "Mod4"
+local ctrl = "Control"
 local window = require("helpers.window")
 
-local cmd_on_match = function (rule, cmd_match, cmd, ...)
+local key_on_match = function (rule, key_match, no_match)
   if awful.rules.match_any(client.focus, rule) then
-    awful.spawn(cmd_match, false)
+    awful.spawn("xvkbd -xsendevent -text " .. key_match, false)
   else
-    if type(cmd) ~= "string" then cmd(...)
-    else load("client.focus:" .. cmd)() end
+    awful.spawn("xvkbd -xsendevent -text " .. no_match, false)
   end
 end
 
-local visit = function (rule, tag, restore, cmd)
+local visit = function (rule, tag, restore, cmd, ...)
   local s = awful.screen.focused()
   local focus = client.focus
   local has_instance
@@ -33,7 +34,8 @@ local visit = function (rule, tag, restore, cmd)
     if has_instance then
       client.focus = has_instance
     else
-      awful.spawn(cmd, false)
+      if type(cmd) ~= "string" then cmd(...)
+      else awful.spawn(cmd, false) end
     end
   end
 end
@@ -41,31 +43,15 @@ end
 -- Main Bindings
 awful.keyboard.append_global_keybindings(
   {
-    awful.key({"Control"}, "n",
-      function()
-        cmd_on_match(
-          { role="browser", class={ "Brave-browser" } },
-          "xvkbd -xsendevent -text '\\[Down]'",
-          awful.spawn,
-          "xvkbd -xsendevent -text '\\Cn'",
-          false)
-      end,
-      {description = "Send down arrow in some app", group = "awesome"}),
-    awful.key({"Control"}, "p",
-      function()
-        cmd_on_match(
-          { role="browser", class={ "Brave-browser" } },
-          "xvkbd -xsendevent -text '\\[Up]'",
-          awful.spawn,
-          "xvkbd -xsendevent -text '\\Cp'",
-          false)
-      end,
-      {description = "Send up arrow in some app", group = "awesome"}),
-    awful.key({hypkey}, "i", function() awful.client.focus.byidx(1) end,
+    awful.key({ctrl}, "n", function() key_on_match({class={"Brave-browser"}}, "'\\[Down]'", "'\\Cn'") end,
+      {description = "Send down arrow or C-n", group = "awesome"}),
+    awful.key({ctrl}, "p", function() key_on_match({class={"Brave-browser"}}, "'\\[Up]'", "'\\Cp'") end,
+      {description = "Send up arrow or C-p", group = "awesome"}),
+    awful.key({altkey}, "n", function() awful.client.focus.byidx(1) end,
       {description = "focus next", group = "awesome"}),
-    awful.key({hypkey}, "o", function() awful.client.focus.byidx(-1) end,
+    awful.key({altkey}, "p", function() awful.client.focus.byidx(-1) end,
       {description = "focus previous", group = "awesome"}),
-    awful.key({hypkey}, "Delete", function() client.focus:kill() end,
+    awful.key({altkey}, "q", function() client.focus:kill() end,
       {description = "focus previous", group = "awesome"}),
     awful.key({modkey}, "Left", function() awful.tag.viewprev() end,
       {description = "focus the next tag(desktop)", group = "tag"}),
@@ -75,8 +61,6 @@ awful.keyboard.append_global_keybindings(
       {description = "swap with next client by index", group = "client" }),
     awful.key({modkey}, "Up", function() awful.client.swap.byidx(-1) end,
       {description = "swap with previous client by index", group = "client" }),
-    awful.key({}, "Delete", function() awful.spawn("powermenu", false) end,
-      {description = "Power menu", group = "awesome" }),
     awful.key({}, "Insert", function() awful.spawn("rofi -show run -theme dmenu.rasi", false) end,
       {description = "App menu", group = "awesome" }),
   }
@@ -85,19 +69,15 @@ awful.keyboard.append_global_keybindings(
 -- Launcher
 awful.keyboard.append_global_keybindings (
   {
-    awful.key({hypkey}, "n", function() awful.spawn("floatwin -d 2460x2060+1360+15 -c BraveDev: bravectl dev", false) end,
-      {description = "toggle dev browser", group = "launcher"}),
-    awful.key({hypkey}, "'", function() visit({name=".*- Brave$"}, 1, true, "bravectl start") end,
-      {description = "open brave", group = "launcher"}),
-    awful.key({hypkey}, "e", function() visit({class="Emacs"}, 2, false, "emacsclient -cn") end,
+    awful.key({hypkey}, "n", function() awful.spawn("floatwin -d 2460x2060+1360+15 -c Brave-browser: bravectl start", false) end,
+      {description = "toggle browser", group = "launcher"}),
+    awful.key({hypkey}, "e", function() visit({class="Emacs"}, 1, false, "emacsclient -cn") end,
       {description = "Launch emacs", group = "launcher"}),
-    awful.key({hypkey}, "y", function() visit({name=".*YouTube Music$"}, 3, true, "bravectl music") end,
+    awful.key({hypkey}, "y", function() visit({name=".*YouTube Music$"}, 2, true, "bravectl music") end,
       {description = "open YouTube music", group = "launcher"}),
-    awful.key({hypkey}, "\\", function() visit({class="Brave-browser"}, 4, false, "bravectl inco") end,
-      {description = "open brave(incognito)", group = "launcher"}),
-    awful.key({hypkey}, "/", function() visit({class="Alacritty"}, 5, true, "alacritty") end,
+    awful.key({hypkey}, "/", function() visit({class="Alacritty"}, 3, true, "alacritty") end,
       {description = "Open terminal", group = "launcher" }),
-    awful.key({hypkey}, "l", function() awful.spawn("floatwin -d 75%x96%+24%+1% -n lf-emacs emacsclient -ne '\\(lf-new-frame\\)", false) end,
+    awful.key({hypkey}, "l", function() awful.spawn("floatwin -d 75%x96%+24%+1% -n lf-emacs emacsclient -ne '\\(lf-new-frame\\)'", false) end,
       {description = "open lf (in emacs)", group = "launcher"}),
     awful.key({hypkey}, "h", function() awful.spawn("floatwin -t -d 1920x2000+80+80 htop", false) end,
       {description = "open htop", group = "launcher"}),
@@ -107,6 +87,8 @@ awful.keyboard.append_global_keybindings (
       {description = "take screenshots", group = "launcher"}),
     awful.key({hypkey}, "m", function() awful.spawn("floatwin -c mpv:emacs-mpv", false) end,
       {description = "toggle playing video", group = "launcher"}),
+    awful.key({hypkey}, "Delete", function() awful.spawn("powermenu", false) end,
+      {description = "Power menu", group = "awesome" }),
     awful.key({hypkey}, "Return", function() awful.spawn("alacritty", false) end,
       {description = "open terminal", group = "launcher"}),
   }
@@ -150,8 +132,12 @@ awful.keyboard.append_global_keybindings (
       {description = "decrease volume", group = "media"}),
     awful.key({}, "F12", function() awful.spawn("pulsemixer --change-volume +8", false) end,
       {description = "increase volume", group = "media"}),
+    awful.key({}, "F1", function() awful.spawn("rofi -show run -theme dmenu.rasi", false) end,
+      {description = "App menu", group = "awesome" }),
     awful.key({hypkey}, "F1", hotkeys_popup.show_help,
       {description = "show help", group = "awesome"}),
+    awful.key({}, "Delete", function() awful.spawn("xvkbd -xsendevent -text '\\[F12]'", false) end,
+      {description = "F12 key [Browser Devtool]", group = "awesome" }),
   }
 )
 

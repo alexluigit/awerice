@@ -21,16 +21,7 @@ ruled.client.connect_signal (
       rule_any = {
         role = {"pop-up"}
       },
+      except = {class = "Brave-browser"},
       properties = {floating = true}
-    }
-    ruled.client.append_rule {
-      id = "desktop",
-      rule_any = {
-        name = {"YouTube Music"}
-      },
-      properties = {
-        tag = "3",
-        switch_to_tags = true
-      },
     }
 end)
