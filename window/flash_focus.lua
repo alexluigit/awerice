@@ -11,7 +11,6 @@ local bg_rule = beautiful.flash_focus_transparent_bg_rule
 local flashfocus = function(c)
   local clients = awful.screen.focused().selected_tag:clients()
   if c then
-    if c.class == "Emacs" then op_ed = 0.95 end
     -- Make apps match fg_rule use lower opacity value
     if bg_rule then
       for _, client in ipairs(clients) do

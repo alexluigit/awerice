@@ -95,9 +95,9 @@ theme.tasklist_bg_urgent = theme.xcolor0
 theme.tasklist_fg_urgent = theme.xcolor1
 theme.tasklist_align = "center"
 
--- Flash focus
-theme.flash_focus_transparent_fg_rule = {class={"Emacs"}}
-theme.flash_focus_transparent_bg_rule = {class={"mpv", "BraveDev"}}
+-- -- Flash focus
+theme.flash_focus_transparent_fg_rule = nil
+theme.flash_focus_transparent_bg_rule = nil
 
 -- Tooltips
 theme.tooltip_bg = theme.xbackground
