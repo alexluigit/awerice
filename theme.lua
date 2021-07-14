@@ -106,10 +106,12 @@ theme.tooltip_align = "left"
 
 -- Hotkeys Pop Up
 theme.hotkeys_font = theme.font_name .. "15"
-theme.hotkeys_description_font = theme.font_name .. "12"
+theme.hotkeys_description_font = theme.font_name .. "15"
 theme.hotkeys_border_color = theme.xcolor0
-theme.hotkeys_group_margin = dpi(40)
+theme.hotkeys_modifiers_fg = theme.xcolor4
+theme.hotkeys_group_margin = dpi(36)
 theme.hotkeys_shape = shape.cutting_corner
+theme.hotkeys_border_width = 10
 
 -- Layout List
 theme.layoutlist_border_color = theme.xcolor8
