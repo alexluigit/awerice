@@ -3,7 +3,6 @@ require("widget")
 require("window")
 require("keys")
 require("rules")
-require("desktop")
 require("ears")
 require("bar")
 
