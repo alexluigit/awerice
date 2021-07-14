@@ -53,7 +53,7 @@ awful.keyboard.append_global_keybindings(
       {description = "launch browser", group = "launcher" }),
     awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 40%x40%+2300+10 toggle") end,
       {description = "toggle murl", group = "launcher"}),
-    awful.key({modkey}, "Return", function() awful.spawn("floatwin -g 2460x2060+100+15 -t", true) end,
+    awful.key({modkey}, "a", function() awful.spawn("floatwin -g 2460x2060+100+15 -t", true) end,
       {description = "toggle terminal", group = "launcher"}),
   }
 )
