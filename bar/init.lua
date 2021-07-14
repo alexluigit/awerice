@@ -116,5 +116,5 @@ awesome.connect_signal(
   "widgets::splash::visibility", function(vis)
     screen.primary.mywibox.visible = not vis
 end)
--- client.connect_signal("property::fullscreen", remove_wibar)
--- client.connect_signal("request::unmanage", add_wibar)
+client.connect_signal("property::fullscreen", remove_wibar)
+client.connect_signal("request::unmanage", add_wibar)
