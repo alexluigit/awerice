@@ -1,123 +1,87 @@
 local awful = require("awful")
-local hotkeys_popup = require("awful.hotkeys_popup")
+local hotkeys = require("awful.hotkeys_popup.widget").new({width=1000,height=2500})
+local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
 local altkey = "Mod1"
 local hypkey = "Mod3"
 local modkey = "Mod4"
 local ctrl = "Control"
-local window = require("helpers.window")
-
-local key_on_match = function (rule, key_match, no_match)
-  if awful.rules.match_any(client.focus, rule) then
-    awful.spawn("xvkbd -xsendevent -text " .. key_match, false)
-  else
-    awful.spawn("xvkbd -xsendevent -text " .. no_match, false)
-  end
-end
-
-local visit = function (rule, tag, restore, cmd, ...)
-  local s = awful.screen.focused()
-  local focus = client.focus
-  local has_instance
-  if focus and awful.rules.match(focus, rule) and restore then
-    if type(restore) == "boolean" then
-      awful.tag.history.restore(s, 1)
-    else awful.spawn(restore, false)
-    end
-  else
-    for _, c in ipairs(s.tags[tag]:clients()) do
-      if awful.rules.match(c, rule) then
-        has_instance = c
-        break
-      end
-    end
-    s.tags[tag]:view_only()
-    if has_instance then
-      client.focus = has_instance
-    else
-      if type(cmd) ~= "string" then cmd(...)
-      else awful.spawn(cmd, false) end
-    end
-  end
-end
+local W = require("helpers.window")
 
 -- Main Bindings
 awful.keyboard.append_global_keybindings(
   {
-    awful.key({ctrl}, "n", function() key_on_match({class={"Brave-browser"}}, "'\\[Down]'", "'\\Cn'") end,
-      {description = "Send down arrow or C-n", group = "awesome"}),
-    awful.key({ctrl}, "p", function() key_on_match({class={"Brave-browser"}}, "'\\[Up]'", "'\\Cp'") end,
-      {description = "Send up arrow or C-p", group = "awesome"}),
-    awful.key({altkey}, "n", function() awful.client.focus.byidx(1) end,
-      {description = "focus next", group = "awesome"}),
-    awful.key({altkey}, "p", function() awful.client.focus.byidx(-1) end,
-      {description = "focus previous", group = "awesome"}),
-    awful.key({altkey}, "q", function() client.focus:kill() end,
-      {description = "focus previous", group = "awesome"}),
+    awful.key({}, "Insert", W.last_window, {description = "Focus last client", group = "awesome"}),
+    awful.key({}, "XF86Tools", function() awful.spawn("rofi -show combi", false) end,
+      {description = "Rofi combi", group = "rofi"}),
+    awful.key({ctrl}, "n", function() W.if_match({class={"Brave-browser"}},{k="'\\[Down]'"},{k="'\\Cn'"}) end,
+      {description = "send down arrow or C-n", group = "awesome"}),
+    awful.key({ctrl}, "p", function() W.if_match({class={"Brave-browser"}},{k="'\\[Up]'"},{k="'\\Cp'"}) end,
+      {description = "send up arrow or C-p", group = "awesome"}),
+    awful.key({modkey}, "XF86Tools", function() awful.spawn("rofi -show run", false) end,
+      {description = "dmenu", group = "rofi" }),
+    awful.key({modkey}, "q", function() client.focus:kill() end,
+      {description = "close window", group = "awesome"}),
     awful.key({modkey}, "Left", function() awful.tag.viewprev() end,
       {description = "focus the next tag(desktop)", group = "tag"}),
     awful.key({modkey}, "Right", function() awful.tag.viewnext() end,
       {description = "focus the previous tag(desktop)", group = "tag"}),
     awful.key({modkey}, "Down", function() awful.client.swap.byidx(1) end,
-      {description = "swap with next client by index", group = "client" }),
+      {description = "swap with next client by index", group = "layout" }),
     awful.key({modkey}, "Up", function() awful.client.swap.byidx(-1) end,
-      {description = "swap with previous client by index", group = "client" }),
-    awful.key({}, "Insert", function() awful.spawn("rofi -show run -theme dmenu.rasi", false) end,
-      {description = "App menu", group = "awesome" }),
+      {description = "swap with previous client by index", group = "layout" }),
+    awful.key({hypkey}, "F1", function() hotkeys:show_help() end,
+      {description = "show help", group = "awesome"}),
+    awful.key({hypkey}, "c", function() awful.spawn("xdotool click 1", false) end,
+      {description = "emulate mouse click", group = "awesome"}),
+    awful.key({hypkey}, "s", function() awful.spawn(flameshots, false) end,
+      {description = "take screenshots", group = "awesome"}),
+    awful.key({hypkey, "Shift"}, "F12", function() awful.spawn("powermenu", false) end,
+      {description = "power menu", group = "rofi" }),
   }
 )
 
--- Launcher
-awful.keyboard.append_global_keybindings (
+-- Launcher Bindings
+awful.keyboard.append_global_keybindings(
   {
-    awful.key({hypkey}, "n", function() awful.spawn("floatwin -d 2460x2060+1360+15 -c Brave-browser: bravectl start", false) end,
-      {description = "toggle browser", group = "launcher"}),
-    awful.key({hypkey}, "e", function() visit({class="Emacs"}, 1, false, "emacsclient -cn") end,
-      {description = "Launch emacs", group = "launcher"}),
-    awful.key({hypkey}, "y", function() visit({name=".*YouTube Music$"}, 2, true, "bravectl music") end,
-      {description = "open YouTube music", group = "launcher"}),
-    awful.key({hypkey}, "/", function() visit({class="Alacritty"}, 3, true, "alacritty") end,
-      {description = "Open terminal", group = "launcher" }),
-    awful.key({hypkey}, "l", function() awful.spawn("floatwin -d 75%x96%+24%+1% -n lf-emacs emacsclient -ne '\\(lf-new-frame\\)'", false) end,
-      {description = "open lf (in emacs)", group = "launcher"}),
-    awful.key({hypkey}, "h", function() awful.spawn("floatwin -t -d 1920x2000+80+80 htop", false) end,
-      {description = "open htop", group = "launcher"}),
-    awful.key({hypkey}, "u", function() awful.spawn("murl -P 1088 -d 25%x25%+2870+10 toggle", false) end,
+    awful.key({modkey}, "t", function () W.ror({class={"Emacs"}}, 1, false, {c="em new"}) end,
+      {description = "launch or focus emacs", group = "launcher"}),
+    awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
+      {description = "launch or focus youtube music", group = "launcher"}),
+    awful.key({modkey}, "f", function () W.ror({name={"lf-emacs"}}, nil, true, {c="em lf"}) end,
+      {description = "launch or focus emacs", group = "launcher"}),
+    awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
+      {description = "launch browser", group = "launcher" }),
+    awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 40%x40%+2300+10 toggle") end,
       {description = "toggle murl", group = "launcher"}),
-    awful.key({hypkey}, "s", function() awful.spawn("flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots", false) end,
-      {description = "take screenshots", group = "launcher"}),
-    awful.key({hypkey}, "m", function() awful.spawn("floatwin -c mpv:emacs-mpv", false) end,
-      {description = "toggle playing video", group = "launcher"}),
-    awful.key({hypkey}, "Delete", function() awful.spawn("powermenu", false) end,
-      {description = "Power menu", group = "awesome" }),
-    awful.key({hypkey}, "Return", function() awful.spawn("alacritty", false) end,
-      {description = "open terminal", group = "launcher"}),
+    awful.key({modkey}, "Return", function() awful.spawn("floatwin -g 2460x2060+100+15 -t", true) end,
+      {description = "toggle terminal", group = "launcher"}),
   }
 )
 
--- Client
+-- Layout
 client.connect_signal(
   "request::default_keybindings", function ()
     awful.keyboard.append_client_keybindings (
       {
         awful.key({hypkey}, " ", function(c) c.maximized = not c.maximized c:raise() end,
-          {description = "(un)maximize", group = "client"}),
-        awful.key({hypkey}, "Left", function(c) window.resize_dwim(c, "left") end,
+          {description = "(un)maximize", group = "layout"}),
+        awful.key({hypkey}, "Left", function(c) W.resize_dwim(c, "left") end,
           {description = "increase master width factor", group = "layout"}),
-        awful.key({hypkey}, "Right", function(c) window.resize_dwim(c, "right") end,
+        awful.key({hypkey}, "Right", function(c) W.resize_dwim(c, "right") end,
           {description = "increase master width factor", group = "layout"}),
-        awful.key({hypkey}, "Up", function(c) window.resize_dwim(c, "up") end,
+        awful.key({hypkey}, "Up", function(c) W.resize_dwim(c, "up") end,
           {description = "increase master width factor", group = "layout"}),
-        awful.key({hypkey}, "Down", function(c) window.resize_dwim(c, "down") end,
+        awful.key({hypkey}, "Down", function(c) W.resize_dwim(c, "down") end,
           {description = "increase master width factor", group = "layout"}),
         awful.key({hypkey}, "=", function(c) c:swap(awful.client.getmaster()) end,
-          {description = "become master", group = "client"}),
-        awful.key({hypkey}, "Backspace", function(c) c.ontop = not c.ontop end,
-          {description = "toggle keep top", group = "client"}),
+          {description = "become master", group = "layout"}),
+        awful.key({hypkey}, "/", function(c) c.ontop = not c.ontop end,
+          {description = "toggle keep top", group = "layout"}),
       }
     )
 end)
 
--- Function Keys
+-- Media Keys
 awful.keyboard.append_global_keybindings (
   {
     awful.key({}, "F7", function() awful.spawn("playerctl previous", false) end,
@@ -132,12 +96,6 @@ awful.keyboard.append_global_keybindings (
       {description = "decrease volume", group = "media"}),
     awful.key({}, "F12", function() awful.spawn("pulsemixer --change-volume +8", false) end,
       {description = "increase volume", group = "media"}),
-    awful.key({}, "F1", function() awful.spawn("rofi -show run -theme dmenu.rasi", false) end,
-      {description = "App menu", group = "awesome" }),
-    awful.key({hypkey}, "F1", hotkeys_popup.show_help,
-      {description = "show help", group = "awesome"}),
-    awful.key({}, "Delete", function() awful.spawn("xvkbd -xsendevent -text '\\[F12]'", false) end,
-      {description = "F12 key [Browser Devtool]", group = "awesome" }),
   }
 )
 
@@ -169,7 +127,7 @@ awful.keyboard.append_global_keybindings(
     awful.key {
       modifiers = {hypkey},
       keygroup = "numrow",
-      description = "move focused client to tag",
+      description = "move client to tag",
       group = "tag",
       on_press = function(index)
         if client.focus then

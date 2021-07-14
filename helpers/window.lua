@@ -70,4 +70,64 @@ function _window.resize_dwim(c, direction)
     end
 end
 
+local _run_cmd = function (t)
+  local cmd = nil
+  local awe_cmd
+  local awe_args
+  if t.k then
+    cmd = "xvkbd -xsendevent -text " .. t.k
+  elseif t.c then
+    cmd = t.c
+  else
+    awe_cmd = t.a; awe_arg = t.A
+  end
+  if cmd then awful.spawn(cmd, false) else awe_cmd(awe_arg) end
+end
+
+function _window.last_window ()
+  local c = awful.client.focus.history.list[2]
+  local s = awful.screen.focused()
+  client.focus = c
+  local t = client.focus and client.focus.first_tag or nil
+  if t then t:view_only() else awful.tag.history.restore (s, -1) end
+  c:raise()
+end
+
+function _window.if_match (rule, match, no_match)
+  local c = client.focus
+  if c and awful.rules.match_any(c, rule) then
+    _run_cmd(match)
+  else
+    _run_cmd(no_match)
+  end
+end
+
+-- ror stands for 'run or raise'
+function _window.ror (rule, tag, match, no_match)
+  local s = awful.screen.focused()
+  local focus = client.focus
+  local target_tag = tag or awful.tag.selected().index
+  local has_instance
+  if focus and awful.rules.match_any(focus, rule) then
+    if type(match) == "boolean" then
+      if match then last_window() end
+    else _run_cmd(match)
+    end
+  else
+    for _, c in ipairs(s.tags[target_tag]:clients()) do
+      if awful.rules.match_any(c, rule) then
+        has_instance = c
+        break
+      end
+    end
+    s.tags[target_tag]:view_only()
+    if has_instance then
+      client.focus = has_instance
+      has_instance:raise()
+    else
+      _run_cmd(no_match)
+    end
+  end
+end
+
 return _window
