@@ -5,7 +5,6 @@ local beautiful = require("beautiful")
 
 require("window.savefloats")
 require("window.better-resize")
-require("window.flash_focus")
 
 -- Only show window border when there are more than 1 clients
 local border_adjust = function (c)
