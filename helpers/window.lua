@@ -110,7 +110,7 @@ function _window.ror (rule, tag, match, no_match)
   local has_instance
   if focus and awful.rules.match_any(focus, rule) then
     if type(match) == "boolean" then
-      if match then last_window() end
+      if match then _window.last_window() end
     else _run_cmd(match)
     end
   else

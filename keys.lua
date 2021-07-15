@@ -43,7 +43,7 @@ awful.keyboard.append_global_keybindings(
 -- Launcher Bindings
 awful.keyboard.append_global_keybindings(
   {
-    awful.key({modkey}, "t", function () W.ror({class={"Emacs"}}, 1, false, {c="em new"}) end,
+    awful.key({modkey}, "t", function () W.ror({class={"Emacs"}}, 1, {k="'\\Wt'"}, {c="em new"}) end,
       {description = "launch or focus emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
       {description = "launch or focus youtube music", group = "launcher"}),
