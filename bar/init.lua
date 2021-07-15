@@ -98,23 +98,7 @@ screen.connect_signal (
     }
 end)
 
-local function remove_wibar(c)
-  if c.fullscreen or c.maximized then
-    c.screen.mywibox.visible = false
-  else
-    c.screen.mywibox.visible = true
-  end
-end
-
-local function add_wibar(c)
-  if c.fullscreen or c.maximized then
-    c.screen.mywibox.visible = true
-  end
-end
-
 awesome.connect_signal(
   "widgets::splash::visibility", function(vis)
     screen.primary.mywibox.visible = not vis
 end)
-client.connect_signal("property::fullscreen", remove_wibar)
-client.connect_signal("request::unmanage", add_wibar)
