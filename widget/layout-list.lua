@@ -77,10 +77,10 @@ awful.keygrabber {
     stop_callback = function() layout_popup.visible = false end,
     export_keybindings = true,
     stop_event = "release",
-    stop_key = {"Escape", "Super_L", "Super_R", "Mod4"},
+    stop_key = {"Escape", "Hyper_L", "Hyper_R", "Mod3"},
     keybindings = {
         {
-            {modkey}, "Tab", function()
+            {"Mod3"}, "Tab", function()
                 awful.layout.set(gears.table.iterate_value(ll.layouts, ll.current_layout, 1), nil)
             end
         }

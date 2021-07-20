@@ -13,6 +13,8 @@ awful.keyboard.append_global_keybindings(
     awful.key({}, "Insert", W.last_window, {description = "Focus last client", group = "awesome"}),
     awful.key({}, "XF86Tools", function() awful.spawn("rofi -show combi", false) end,
       {description = "Rofi combi", group = "rofi"}),
+    awful.key({}, "Delete", function () W.if_match({class={"Brave-browser"}},{k="'\\[F12]'"},{k="'\\[Delete]'"}) end,
+      {description = "launch or focus emacs", group = "launcher"}),
     awful.key({ctrl}, "n", function() W.if_match({class={"Brave-browser"}},{k="'\\[Down]'"},{k="'\\Cn'"}) end,
       {description = "send down arrow or C-n", group = "awesome"}),
     awful.key({ctrl}, "p", function() W.if_match({class={"Brave-browser"}},{k="'\\[Up]'"},{k="'\\Cp'"}) end,
@@ -35,7 +37,7 @@ awful.keyboard.append_global_keybindings(
       {description = "emulate mouse click", group = "awesome"}),
     awful.key({hypkey}, "s", function() awful.spawn(flameshots, false) end,
       {description = "take screenshots", group = "awesome"}),
-    awful.key({hypkey, "Shift"}, "F12", function() awful.spawn("powermenu", false) end,
+    awful.key({hypkey}, "Delete", function() awful.spawn("powermenu", false) end,
       {description = "power menu", group = "rofi" }),
   }
 )
@@ -43,7 +45,7 @@ awful.keyboard.append_global_keybindings(
 -- Launcher Bindings
 awful.keyboard.append_global_keybindings(
   {
-    awful.key({modkey}, "t", function () W.ror({class={"Emacs"}}, 1, {k="'\\Wt'"}, {c="em new"}) end,
+    awful.key({}, "KP_Equal", function () W.ror({class={"Emacs"}}, 1, {k="'\\S%'"}, {c="em new"}) end,
       {description = "launch or focus emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
       {description = "launch or focus youtube music", group = "launcher"}),
@@ -53,7 +55,7 @@ awful.keyboard.append_global_keybindings(
       {description = "launch browser", group = "launcher" }),
     awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 40%x40%+2300+10 toggle") end,
       {description = "toggle murl", group = "launcher"}),
-    awful.key({modkey}, "a", function() awful.spawn("floatwin -g 2460x2060+100+15 -t", true) end,
+    awful.key({modkey}, "t", function() awful.spawn("floatwin -g 2460x2060+15+15 -t", true) end,
       {description = "toggle terminal", group = "launcher"}),
   }
 )
