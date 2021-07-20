@@ -1,6 +1,4 @@
 local awful = require("awful")
-local gears = require("gears")
-local gfs = gears.filesystem.get_configuration_dir()
 local beautiful = require("beautiful")
 
 require("window.savefloats")
@@ -22,12 +20,6 @@ client.connect_signal (
       not c.size_hints.program_position then
       -- Prevent clients from being unreachable after screen count changes.
       awful.placement.no_offscreen(c)
-    end
-    -- Give Alacritty icon
-    if c.class == "Alacritty" or c.class == "ncmpcpp" or c.class ==
-      "htop" or c.instance == "alacritty" then
-      local new_icon = gears.surface(gfs .. "icons/terminal.png")
-      c.icon = new_icon._native
     end
 end)
 
