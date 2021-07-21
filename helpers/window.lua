@@ -70,6 +70,12 @@ function _window.resize_dwim(c, direction)
     end
 end
 
+function _window.toggle_maximize (c)
+  c.maximized = not c.maximized
+  if c.maximized then c.border_width = 0 end
+  c:raise()
+end
+
 local _run_cmd = function (t)
   local cmd = nil
   local awe_cmd

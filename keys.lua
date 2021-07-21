@@ -65,8 +65,8 @@ client.connect_signal(
   "request::default_keybindings", function ()
     awful.keyboard.append_client_keybindings (
       {
-        awful.key({hypkey}, " ", function(c) c.maximized = not c.maximized c:raise() end,
-          {description = "(un)maximize", group = "layout"}),
+        awful.key({hypkey}, " ", function(c) W.toggle_maximize(c) end,
+          {description = "toggle maximize", group = "layout"}),
         awful.key({hypkey}, "Left", function(c) W.resize_dwim(c, "left") end,
           {description = "increase master width factor", group = "layout"}),
         awful.key({hypkey}, "Right", function(c) W.resize_dwim(c, "right") end,

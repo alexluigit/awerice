@@ -3,7 +3,7 @@ local beautiful = require("beautiful")
 
 -- Only show window border when there are more than 1 clients
 local border_adjust = function (c)
-  if #c.screen.clients == 1 then
+  if c.maximized or #c.screen.clients == 1 then
     c.border_width = 0
   elseif #c.screen.clients > 1 then
     c.border_width = beautiful.border_width
