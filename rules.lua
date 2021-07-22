@@ -31,12 +31,4 @@ ruled.client.connect_signal (
       except = {class = "Brave-browser"},
       properties = {floating = true}
     }
-    ruled.client.append_rule {
-      id = "maximize_emacs",
-      rule_any = {
-        class = {"Emacs"},
-      },
-      except = {name = "lf-emacs"},
-      properties = {maximized = true}
-    }
 end)
