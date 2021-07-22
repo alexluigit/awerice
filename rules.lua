@@ -20,7 +20,8 @@ ruled.client.connect_signal (
         screen = awful.screen.preferred,
         placement = awful.placement.centered + awful.placement.no_overlap +
           awful.placement.no_offscreen
-      }
+      },
+      callback = awful.client.setslave
     }
     ruled.client.append_rule {
       id = "floating",
