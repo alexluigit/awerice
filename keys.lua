@@ -1,11 +1,11 @@
 local awful = require("awful")
 local hotkeys = require("awful.hotkeys_popup.widget").new({width=1000,height=2500})
+local W = require("helpers.window")
 local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
 local altkey = "Mod1"
 local hypkey = "Mod3"
 local modkey = "Mod4"
 local ctrl = "Control"
-local W = require("helpers.window")
 
 -- Main Bindings
 awful.keyboard.append_global_keybindings(
@@ -81,7 +81,7 @@ client.connect_signal(
           {description = "become master", group = "layout"}),
         awful.key({hypkey}, "/", function(c) c.ontop = not c.ontop end,
           {description = "toggle keep top", group = "layout"}),
-        awful.key({hypkey}, "Return", function(c) c.floating = not c.floating end,
+        awful.key({hypkey}, "Return", function(c) W.toggle_floating(c) end,
           {description = "toggle floating", group = "layout"}),
       }
     )

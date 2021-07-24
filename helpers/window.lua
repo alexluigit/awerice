@@ -90,6 +90,12 @@ local _run_cmd = function (t)
   if cmd then awful.spawn(cmd, false) else awe_cmd(awe_arg) end
 end
 
+function _window.toggle_floating (c)
+  local t = screen.primary.selected_tag
+  for _, tc in ipairs(t:clients()) do tc.maximized = false end
+  c.floating = not c.floating
+end
+
 function _window.last_window ()
   local c = awful.client.focus.history.list[2]
   local s = awful.screen.focused()
