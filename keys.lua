@@ -51,13 +51,11 @@ awful.keyboard.append_global_keybindings(
       {description = "launch or focus youtube music", group = "launcher"}),
     awful.key({modkey}, "f", function () W.ror({name={"lf-emacs"}}, nil, true, {c="em lf"}) end,
       {description = "launch or focus emacs", group = "launcher"}),
-    awful.key({modkey}, "w", function() awful.spawn("bravectl webfloat", false) end,
-      {description = "launch browser(floating)", group = "launcher" }),
-    awful.key({modkey}, "p", function() awful.spawn("bravectl webtile", false) end,
-      {description = "launch browser(tiling)", group = "launcher" }),
-    awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 40%x40%+2300+10 toggle") end,
+    awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
+      {description = "launch browser", group = "launcher" }),
+    awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 40%x40%+2300+10 toggle", false) end,
       {description = "toggle murl", group = "launcher"}),
-    awful.key({modkey}, "t", function() awful.spawn("floatwin -g 2460x2060+15+15 -t", true) end,
+    awful.key({modkey}, "t", function() awful.spawn("floatwin -T -t", false) end,
       {description = "toggle terminal", group = "launcher"}),
   }
 )

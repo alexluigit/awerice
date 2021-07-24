@@ -49,6 +49,7 @@ local maximize_singleton = function(c)
     end
   end
 end
+client.connect_signal ("request::manage", function(c) maximize_singleton(c) end)
 client.connect_signal ("request::unmanage", function(c) maximize_singleton(c) end)
 
 -- Hide all windows when a splash is shown
