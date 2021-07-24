@@ -34,7 +34,7 @@ local unmaximize_all = function(c)
   local t = screen.primary.selected_tag
   for _, tc in ipairs(t:clients()) do tc.maximized = false end
 end
-client.connect_signal ("manage", function(c) unmaximize_all(c) end)
+client.connect_signal ("request::manage", function(c) unmaximize_all(c) end)
 
 -- Always maximize the only tiling window
 local maximize_singleton = function(c)
@@ -49,7 +49,7 @@ local maximize_singleton = function(c)
     end
   end
 end
-client.connect_signal ("unmanage", function(c) maximize_singleton(c) end)
+client.connect_signal ("request::unmanage", function(c) maximize_singleton(c) end)
 
 -- Hide all windows when a splash is shown
 local hide_all = function(vis)
