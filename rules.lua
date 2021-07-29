@@ -31,4 +31,28 @@ ruled.client.connect_signal (
       except = {class = "Brave-browser"},
       properties = {floating = true}
     }
+    ruled.client.append_rule {
+      rule = {class="kdenlive"},
+      properties = {
+        tag = "3",
+        raise = true,
+        switch_to_tags = true
+      }
+    }
+    ruled.client.append_rule {
+      rule = {class="Gimp-2.99"},
+      properties = {
+        tag = "4",
+        raise = true,
+        switch_to_tags = true
+      }
+    }
+    ruled.client.append_rule {
+      rule = {class="obs"},
+      properties = {
+        tag = "5",
+        raise = true,
+        switch_to_tags = true
+      }
+    }
 end)
