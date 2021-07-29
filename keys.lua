@@ -10,7 +10,10 @@ local ctrl = "Control"
 -- Main Bindings
 awful.keyboard.append_global_keybindings(
   {
-    awful.key({}, "Insert", W.last_window, {description = "Focus last client", group = "awesome"}),
+    awful.key({}, "KP_Equal", function() awful.spawn("xdotool key Caps_Lock", false) end,
+      {description = "Send Caps_Lock", group = "awesome"}),
+    awful.key({}, "Insert", W.last_window,
+      {description = "Focus last client", group = "awesome"}),
     awful.key({}, "XF86Tools", function() awful.spawn("rofi -show combi", false) end,
       {description = "Rofi combi", group = "rofi"}),
     awful.key({}, "Delete", function () W.if_match({class={"Brave-browser"}},{k="'\\[F12]'"},{k="'\\[Delete]'"}) end,
@@ -45,7 +48,7 @@ awful.keyboard.append_global_keybindings(
 -- Launcher Bindings
 awful.keyboard.append_global_keybindings(
   {
-    awful.key({}, "KP_Equal", function () W.ror({class={"Emacs"}}, 1, {k="'\\S%'"}, {c="em new"}) end,
+    awful.key({modkey}, "e", function () W.ror({class={"Emacs"}}, 1, true, {c="em new"}) end,
       {description = "launch or focus emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
       {description = "launch or focus youtube music", group = "launcher"}),
