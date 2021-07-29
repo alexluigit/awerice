@@ -30,7 +30,7 @@ client.connect_signal ("manage", function(c) readjust_screen_change(c) end)
 
 -- Unmaximize all windows when a new window is opened
 local unmaximize_all = function(c)
-  if c.class == "Emacs" or c.floating then return end
+  if c.floating then return end
   local t = screen.primary.selected_tag
   for _, tc in ipairs(t:clients()) do tc.maximized = false end
 end
