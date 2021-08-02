@@ -1,5 +1,5 @@
 local awful = require("awful")
-local hotkeys = require("awful.hotkeys_popup.widget").new({width=1000,height=2500})
+local hotkeys = require("awful.hotkeys_popup.widget").new({width=1000,height=2000})
 local W = require("helpers.window")
 local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
 local altkey = "Mod1"

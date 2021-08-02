@@ -26,13 +26,12 @@ end
 
 -- Create cutting corner
 function shape.cutting_corner(cr, width, height)
-    cr:move_to(0, height / 25)
-    cr:line_to(height / 25, 0)
-    cr:line_to(width, 0)
-    cr:line_to(width, height - height / 25)
-    cr:line_to(width - height / 25, height)
-    cr:line_to(0, height)
-    cr:close_path()
+  cr:move_to(0,0)
+  cr:line_to(width - height / 25, 0)
+  cr:line_to(width, height / 25)
+  cr:line_to(width, height)
+  cr:line_to(0, height)
+  cr:close_path()
 end
 
 -- Create horizontal rounded bars

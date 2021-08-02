@@ -19,7 +19,6 @@ local tasklist = function(s)
     screen = s,
     filter = awful.widget.tasklist.filter.currenttags,
     buttons = tasklist_buttons,
-    -- bg = beautiful.wibar_bg,
     style = {bg = beautiful.wibar_bg, shape = shapes.rrect(10)},
     layout = {
         spacing = dpi(8),
