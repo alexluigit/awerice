@@ -5,12 +5,12 @@ local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local shapes = require("helpers.shape")
 
-local awesome_icon = require("bar.awesome_icon")
-local get_taglist = require("bar.taglist")
-local final_systray = require("bar.systray")
-local get_tasklist = require("bar.tasklist")
-local playerctl_bar = require("bar.playerctl")
-local timedate = require("bar.timedate")
+local awesome_icon = require(... .. ".awesome_icon")
+local get_taglist = require(... .. ".taglist")
+local final_systray = require(... .. ".systray")
+local get_tasklist = require(... .. ".tasklist")
+local playerctl_bar = require(... .. ".playerctl")
+local timedate = require(... .. ".timedate")
 
 local wrap_widget = function(w)
   return wibox.widget {

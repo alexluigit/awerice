@@ -6,6 +6,6 @@ gears.timer {
     call_now  = true,
     autostart = true,
     callback  = function()
-        awful.spawn("wallpaperctl change", false)
+      awful.spawn("wallpaperctl change", false)
     end
 }
