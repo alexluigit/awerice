@@ -99,7 +99,7 @@ end
 function _window.last_window ()
   local c = awful.client.focus.history.list[2]
   local s = awful.screen.focused()
-  client.focus = c
+  if c then client.focus = c end
   local t = client.focus and client.focus.first_tag or nil
   if t then t:view_only() else awful.tag.history.restore (s, -1) end
   c:raise()
