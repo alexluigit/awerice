@@ -35,21 +35,21 @@ awful.keyboard.append_global_keybindings(
 awful.keyboard.append_global_keybindings(
   {
     awful.key({modkey}, "e", function () W.ror({class={"Emacs"}}, 1, true, {c="em new"}) end,
-      {description = "launch or focus emacs", group = "launcher"}),
+      {description = "Emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
-      {description = "launch or focus youtube music", group = "launcher"}),
-    awful.key({modkey}, "f", function () W.ror({name={"lf-emacs"}}, nil, true, {c="em lf"}) end,
-      {description = "launch or focus lf", group = "launcher"}),
+      {description = "Youtube music", group = "launcher"}),
+    awful.key({modkey}, "f", function () W.ror({name={"danger-emacs"}}, nil, true, {c="em file"}) end,
+      {description = "File manager", group = "launcher"}),
     awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
-      {description = "launch browser", group = "launcher" }),
+      {description = "Web browser", group = "launcher" }),
     awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 50%x50%+1910+10 toggle", false) end,
-      {description = "toggle murl", group = "launcher"}),
+      {description = "murl", group = "launcher"}),
     awful.key({modkey}, "t", function() awful.spawn("floatwin -T -t", false) end,
-      {description = "toggle terminal", group = "launcher"}),
+      {description = "Terminal", group = "launcher"}),
     awful.key({modkey}, "c", function() awful.spawn("xdotool click 1", false) end,
-      {description = "emulate mouse click", group = "launcher"}),
+      {description = "Mouse click", group = "launcher"}),
     awful.key({modkey}, "s", function() awful.spawn(flameshots, false) end,
-      {description = "take screenshots", group = "launcher"}),
+      {description = "Screenshots", group = "launcher"}),
   }
 )
 
