@@ -70,6 +70,9 @@ local playerctl_bar = wibox.widget {
 local function playerctl_stopped()
   local s = "Nothing playing"
   song_title.markup = '<span foreground="' .. beautiful.xcolor5 .. '">' .. s .. '</span>'
+  song_artist.markup = ''
+  song_title.forced_width = 180
+  song_artist.forced_width = 0
 end
 
 local function playerctl_update(title, artist, _)
