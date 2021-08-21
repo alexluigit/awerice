@@ -2,6 +2,7 @@ local awful = require("awful")
 local hotkeys = require("awful.hotkeys_popup.widget").new({width=1000,height=2000})
 local W = require("helpers.window")
 local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
+local browser_class = require("beautiful").browser_class
 local altkey = "Mod1"
 local hypkey = "Mod3"
 local modkey = "Mod4"
@@ -16,11 +17,11 @@ awful.keyboard.append_global_keybindings(
       {description = "Focus last client", group = "awesome"}),
     awful.key({}, "XF86Tools", function() awful.spawn("rofi -show combi", false) end,
       {description = "Rofi combi", group = "awesome"}),
-    awful.key({}, "Delete", function () W.if_match({class={"Brave-browser"}},{k="'\\[F12]'"},{k="'\\[Delete]'"}) end,
+    awful.key({}, "Delete", function () W.if_match({class={browser_class}},{k="'\\[F12]'"},{k="'\\[Delete]'"}) end,
       {description = "[F12] or [Delete]", group = "launcher"}),
-    awful.key({ctrl}, "n", function() W.if_match({class={"Brave-browser"}},{k="'\\[Down]'"},{k="'\\Cn'"}) end,
+    awful.key({ctrl}, "n", function() W.if_match({class={browser_class}},{k="'\\[Down]'"},{k="'\\Cn'"}) end,
       {description = "send down arrow or C-n", group = "awesome"}),
-    awful.key({ctrl}, "p", function() W.if_match({class={"Brave-browser"}},{k="'\\[Up]'"},{k="'\\Cp'"}) end,
+    awful.key({ctrl}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Cp'"}) end,
       {description = "send up arrow or C-p", group = "awesome"}),
     awful.key({modkey}, "q", function() client.focus:kill() end,
       {description = "close window", group = "awesome"}),

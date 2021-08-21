@@ -1,5 +1,6 @@
 local ruled = require("ruled")
 local awful = require("awful")
+local browser_class = require("beautiful").browser_class
 require("awful.autofocus")
 
 screen.connect_signal(
@@ -28,7 +29,7 @@ ruled.client.connect_signal (
       rule_any = {
         role = {"pop-up"}
       },
-      except = {class = "Brave-browser"},
+      except = {class = browser_class},
       properties = {floating = true}
     }
     ruled.client.append_rule {

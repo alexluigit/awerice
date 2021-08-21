@@ -5,6 +5,9 @@ local theme = dofile(require("gears.filesystem").get_themes_dir().. "default/the
 local gears = require("gears")
 local icon_path = gears.filesystem.get_configuration_dir() .. "icons/"
 
+-- App
+theme.browser_class = "Brave-browser-nightly"
+
 -- Colors
 theme.xbackground = "#1a2026"
 theme.xforeground = "#ffffff"
