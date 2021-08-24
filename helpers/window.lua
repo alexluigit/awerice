@@ -2,6 +2,10 @@ local awful = require("awful")
 
 local _window = {}
 
+function _window.hotkeys ()
+  require("awful.hotkeys_popup.widget").new({width=1000,height=1700}):show_help()
+end
+
 --- Turn off passed client
 -- Remove current tag from window's tags
 -- @param c a client

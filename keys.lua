@@ -1,6 +1,6 @@
 local awful = require("awful")
-local hotkeys = require("awful.hotkeys_popup.widget").new({width=1000,height=2000})
 local W = require("helpers.window")
+local dt = require("helpers.doubletap")
 local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
 local browser_class = require("beautiful").browser_class
 local altkey = "Mod1"
@@ -15,20 +15,14 @@ awful.keyboard.append_global_keybindings(
       {description = "Send Caps_Lock", group = "awesome"}),
     awful.key({}, "Insert", W.last_window,
       {description = "Focus last client", group = "awesome"}),
-    awful.key({}, "XF86Tools", function() awful.spawn("rofi -show combi", false) end,
-      {description = "Rofi combi", group = "awesome"}),
-    awful.key({}, "Delete", function () W.if_match({class={browser_class}},{k="'\\[F12]'"},{k="'\\[Delete]'"}) end,
-      {description = "[F12] or [Delete]", group = "launcher"}),
+    awful.key({}, "XF86Tools", function() dt({c="rofi -show combi"}, {c="rofi -show run"}) end,
+      {description = "App-launcher (single tap) Dmenu (double tap)", group = "awesome" }),
+    awful.key({}, "Delete", function () dt({k="'\\[Delete]'"},{c="powermenu"}) end,
+      {description = "F12 (single tap) Powermenu (double tap)", group = "launcher"}),
     awful.key({ctrl}, "n", function() W.if_match({class={browser_class}},{k="'\\[Down]'"},{k="'\\Cn'"}) end,
       {description = "send down arrow or C-n", group = "awesome"}),
     awful.key({ctrl}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Cp'"}) end,
       {description = "send up arrow or C-p", group = "awesome"}),
-    awful.key({modkey}, "q", function() client.focus:kill() end,
-      {description = "close window", group = "awesome"}),
-    awful.key({modkey}, "XF86Tools", function() awful.spawn("rofi -show run", false) end,
-      {description = "dmenu", group = "awesome" }),
-    awful.key({modkey}, "F1", function() hotkeys:show_help() end,
-      {description = "show help", group = "awesome"}),
   }
 )
 
@@ -51,6 +45,8 @@ awful.keyboard.append_global_keybindings(
       {description = "Mouse click", group = "launcher"}),
     awful.key({modkey}, "s", function() awful.spawn(flameshots, false) end,
       {description = "Screenshots", group = "launcher"}),
+    awful.key({modkey}, "q", function() client.focus:kill() end,
+      {description = "close window", group = "launcher"}),
   }
 )
 
@@ -61,6 +57,10 @@ client.connect_signal(
       {
         awful.key({hypkey}, " ", function(c) W.toggle_maximize(c) end,
           {description = "toggle maximize", group = "layout"}),
+        awful.key({hypkey}, "=", function(c) c:swap(awful.client.getmaster()) end,
+          {description = "become master", group = "layout"}),
+        awful.key({hypkey}, "Delete", function(c) W.toggle_floating(c) end,
+          {description = "toggle floating", group = "layout"}),
         awful.key({hypkey}, "Left", function(c) W.resize_dwim(c, "left") end,
           {description = "increase master width factor", group = "layout"}),
         awful.key({hypkey}, "Right", function(c) W.resize_dwim(c, "right") end,
@@ -69,12 +69,6 @@ client.connect_signal(
           {description = "increase master width factor", group = "layout"}),
         awful.key({hypkey}, "Down", function(c) W.resize_dwim(c, "down") end,
           {description = "increase master width factor", group = "layout"}),
-        awful.key({hypkey}, "=", function(c) c:swap(awful.client.getmaster()) end,
-          {description = "become master", group = "layout"}),
-        awful.key({hypkey}, "Return", function(c) W.toggle_floating(c) end,
-          {description = "toggle floating", group = "layout"}),
-        awful.key({hypkey}, "Delete", function() awful.spawn("powermenu", false) end,
-          {description = "power menu", group = "awesome" }),
       }
     )
 end)
@@ -82,6 +76,8 @@ end)
 -- Media Keys
 awful.keyboard.append_global_keybindings (
   {
+    awful.key({}, "F1", function() dt({k="'\\[F1]'"}, {a=W.hotkeys}) end,
+      {description = "show help", group = "media"}),
     awful.key({}, "F7", function() awful.spawn("playerctl previous", false) end,
       {description = "playerctl previous", group = "media"}),
     awful.key({}, "F8", function() awful.spawn("playerctl play-pause", false) end,
