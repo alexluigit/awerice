@@ -6,7 +6,6 @@ local browser_class = require("beautiful").browser_class
 local altkey = "Mod1"
 local hypkey = "Mod3"
 local modkey = "Mod4"
-local ctrl = "Control"
 
 -- Main Bindings
 awful.keyboard.append_global_keybindings(
@@ -17,11 +16,11 @@ awful.keyboard.append_global_keybindings(
       {description = "Focus last client", group = "awesome"}),
     awful.key({}, "XF86Tools", function() dt({c="rofi -show combi"}, {c="rofi -show run"}) end,
       {description = "App-launcher (single tap) Dmenu (double tap)", group = "awesome" }),
-    awful.key({}, "Delete", function () dt({k="'\\[Delete]'"},{c="powermenu"}) end,
+    awful.key({}, "Delete", function () dt({k="'\\[F12]'"},{c="powermenu"}) end,
       {description = "F12 (single tap) Powermenu (double tap)", group = "launcher"}),
-    awful.key({ctrl}, "n", function() W.if_match({class={browser_class}},{k="'\\[Down]'"},{k="'\\Cn'"}) end,
+    awful.key({altkey}, "n", function() W.if_match({class={browser_class}},{k="'\\[Down]'"},{k="'\\An'"}) end,
       {description = "send down arrow or C-n", group = "awesome"}),
-    awful.key({ctrl}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Cp'"}) end,
+    awful.key({altkey}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Ap'"}) end,
       {description = "send up arrow or C-p", group = "awesome"}),
   }
 )
