@@ -22,7 +22,7 @@ local awesome_icon = wibox.widget {
 }
 
 awesome_icon:buttons(gears.table.join(awful.button({}, 1, function()
-    awful.spawn("rofi -show run -theme dmenu", false)
+    awful.spawn("rofi -show run", false)
 end)))
 
 return awesome_icon
