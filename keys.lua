@@ -84,11 +84,11 @@ awful.keyboard.append_global_keybindings (
       {description = "toggle playerctl", group = "media"}),
     awful.key({}, "F9", function() awful.spawn("playerctl next", false) end,
       {description = "playerctl next", group = "media"}),
-    awful.key({}, "F10", function() awful.spawn("pulsemixer --toggle-mute", false) end,
+    awful.key({}, "F10", function() awful.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false) end,
       {description = "mute volume", group = "media"}),
-    awful.key({}, "F11", function() awful.spawn("pulsemixer --change-volume -8", false) end,
+    awful.key({}, "F11", function() awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ -8%", false) end,
       {description = "decrease volume", group = "media"}),
-    awful.key({}, "F12", function() awful.spawn("pulsemixer --change-volume +8", false) end,
+    awful.key({}, "F12", function() awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ +8%", false) end,
       {description = "increase volume", group = "media"}),
   }
 )
