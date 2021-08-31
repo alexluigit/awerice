@@ -34,10 +34,7 @@ theme.distro_logo = gears.surface.load_uncached(icon_path .. "distro.png")
 -- Fonts
 theme.font_name = "Sarasa Mono SC "
 theme.font = theme.font_name .. "10"
-theme.icon_font_name = "FiraCode Nerd Font Mono "
-theme.icon_font = "FiraCode Nerd Font Mono 18"
-theme.font_taglist = "FiraCode Nerd Font Mono 13"
-theme.max_font = "FiraCode Nerd Font Mono 10"
+theme.icon_font = theme.font_name .. "18"
 
 -- Background Colors
 theme.bg_dark = theme.xcolor0
