@@ -36,7 +36,7 @@ awful.keyboard.append_global_keybindings(
       {description = "File manager", group = "launcher"}),
     awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
       {description = "Web browser", group = "launcher" }),
-    awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -d 50%x50%+1910+10 toggle", false) end,
+    awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -f toggle", false) end,
       {description = "murl", group = "launcher"}),
     awful.key({modkey}, "t", function() awful.spawn("floatwin -T -t", false) end,
       {description = "Terminal", group = "launcher"}),
