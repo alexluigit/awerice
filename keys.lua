@@ -7,9 +7,10 @@ local altkey = "Mod1"
 local hypkey = "Mod3"
 local modkey = "Mod4"
 
--- Main Bindings
+-- Global
 awful.keyboard.append_global_keybindings(
   {
+    -- Main
     awful.key({}, "KP_Equal", function() awful.spawn("xdotool key Caps_Lock", false) end,
       {description = "Send Caps_Lock", group = "awesome"}),
     awful.key({}, "Insert", W.last_window,
@@ -22,12 +23,7 @@ awful.keyboard.append_global_keybindings(
       {description = "send down arrow or C-n", group = "awesome"}),
     awful.key({altkey}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Ap'"}) end,
       {description = "send up arrow or C-p", group = "awesome"}),
-  }
-)
-
--- Launcher Bindings
-awful.keyboard.append_global_keybindings(
-  {
+    -- Launcher
     awful.key({modkey}, "e", function () W.ror({class={"Emacs"}}, 1, true, {c="em new"}) end,
       {description = "Emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
@@ -46,10 +42,32 @@ awful.keyboard.append_global_keybindings(
       {description = "Screenshots", group = "launcher"}),
     awful.key({modkey}, "q", function() client.focus:kill() end,
       {description = "close window", group = "launcher"}),
+    -- Media Keys
+    awful.key({}, "F1", function() dt({k="'\\[F1]'"}, {a=W.hotkeys}) end,
+      {description = "show help", group = "media"}),
+    awful.key({}, "F7", function() awful.spawn("playerctl previous", false) end,
+      {description = "playerctl previous", group = "media"}),
+    awful.key({}, "F8", function() awful.spawn("playerctl play-pause", false) end,
+      {description = "toggle playerctl", group = "media"}),
+    awful.key({}, "F9", function() awful.spawn("playerctl next", false) end,
+      {description = "playerctl next", group = "media"}),
+    awful.key({}, "F10", function() awful.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false) end,
+      {description = "mute volume", group = "media"}),
+    awful.key({}, "F11", function() awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ -8%", false) end,
+      {description = "decrease volume", group = "media"}),
+    awful.key({}, "F12", function() awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ +8%", false) end,
+      {description = "increase volume", group = "media"}),
+    -- Num row keybinds
+    awful.key {modifiers = {modkey}, keygroup = "numrow", description = "only view tag", group = "tag",
+      on_press = function(i) awful.screen.focused().tags[i]:view_only() end},
+    awful.key {modifiers = {hypkey}, keygroup = "numrow", description = "move client to tag", group = "tag",
+      on_press = function(i) client.focus:move_to_tag(client.focus.screen.tags[i]) end},
+    awful.key {modifiers = {modkey, "Control"}, keygroup = "numrow", description = "toggle tag", group = "tag",
+      on_press = function(i) awful.tag.viewtoggle(awful.screen.focused().tags[i]) end},
   }
 )
 
--- Layout
+-- Client
 client.connect_signal(
   "request::default_keybindings", function ()
     awful.keyboard.append_client_keybindings (
@@ -72,66 +90,7 @@ client.connect_signal(
     )
 end)
 
--- Media Keys
-awful.keyboard.append_global_keybindings (
-  {
-    awful.key({}, "F1", function() dt({k="'\\[F1]'"}, {a=W.hotkeys}) end,
-      {description = "show help", group = "media"}),
-    awful.key({}, "F7", function() awful.spawn("playerctl previous", false) end,
-      {description = "playerctl previous", group = "media"}),
-    awful.key({}, "F8", function() awful.spawn("playerctl play-pause", false) end,
-      {description = "toggle playerctl", group = "media"}),
-    awful.key({}, "F9", function() awful.spawn("playerctl next", false) end,
-      {description = "playerctl next", group = "media"}),
-    awful.key({}, "F10", function() awful.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false) end,
-      {description = "mute volume", group = "media"}),
-    awful.key({}, "F11", function() awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ -8%", false) end,
-      {description = "decrease volume", group = "media"}),
-    awful.key({}, "F12", function() awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ +8%", false) end,
-      {description = "increase volume", group = "media"}),
-  }
-)
-
--- Num row keybinds
-awful.keyboard.append_global_keybindings(
-  {
-    awful.key {
-      modifiers = {modkey},
-      keygroup = "numrow",
-      description = "only view tag",
-      group = "tag",
-      on_press = function(index)
-        local screen = awful.screen.focused()
-        local tag = screen.tags[index]
-        if tag then tag:view_only() end
-      end
-    },
-    awful.key {
-      modifiers = {modkey, "Control"},
-      keygroup = "numrow",
-      description = "toggle tag",
-      group = "tag",
-      on_press = function(index)
-        local screen = awful.screen.focused()
-        local tag = screen.tags[index]
-        if tag then awful.tag.viewtoggle(tag) end
-      end
-    },
-    awful.key {
-      modifiers = {hypkey},
-      keygroup = "numrow",
-      description = "move client to tag",
-      group = "tag",
-      on_press = function(index)
-        if client.focus then
-          local tag = client.focus.screen.tags[index]
-          if tag then client.focus:move_to_tag(tag) end
-        end
-      end
-    },
-  }
-)
-
+-- Buttons
 client.connect_signal(
   "request::default_mousebindings", function()
     awful.mouse.append_client_mousebindings({
