@@ -38,7 +38,7 @@ awful.keyboard.append_global_keybindings(
       {description = "Web browser", group = "launcher" }),
     awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -f toggle", false) end,
       {description = "murl", group = "launcher"}),
-    awful.key({modkey}, "t", function() awful.spawn("floatwin -T -t", false) end,
+    awful.key({modkey}, "t", function() awful.spawn("floatwin -T alacritty", false) end,
       {description = "Terminal", group = "launcher"}),
     awful.key({modkey}, "c", function() awful.spawn("xdotool click 1", false) end,
       {description = "Mouse click", group = "launcher"}),
