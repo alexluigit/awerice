@@ -24,11 +24,11 @@ awful.keyboard.append_global_keybindings(
     awful.key({altkey}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Ap'"}) end,
       {description = "send up arrow or C-p", group = "awesome"}),
     -- Launcher
-    awful.key({modkey}, "e", function () W.ror({class={"Emacs"}}, 1, true, {c="em new"}) end,
+    awful.key({modkey}, "e", function () W.ror({class={"Emacs"}}, 1, true, {c="emacsclient -cn"}) end,
       {description = "Emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
       {description = "Youtube music", group = "launcher"}),
-    awful.key({modkey}, "f", function () W.ror({name={"danger-emacs"}}, nil, true, {c="em file"}) end,
+    awful.key({modkey}, "f", function() awful.spawn("floatwin -T -n danger-emacs emacsclient -e '\\(danger-new-frame\\)'", false) end,
       {description = "File manager", group = "launcher"}),
     awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
       {description = "Web browser", group = "launcher" }),
