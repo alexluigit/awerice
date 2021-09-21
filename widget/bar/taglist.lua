@@ -29,45 +29,48 @@ local get_taglist = function(s)
       imgbox.image = tag_icon("ghost", beautiful.xcolor6)
     end
   end
-  local pac_taglist = awful.widget.taglist {
-    screen = s,
-    filter = awful.widget.taglist.filter.all,
-    style = {shape = gears.shape.rectangle},
-    layout = {spacing = 0, layout = wibox.layout.fixed.horizontal},
-    widget_template = {
-      {
-        {id = 'icon_role', widget = wibox.widget.imagebox},
-        id = 'margin_role',
-        top = dpi(7),
-        bottom = dpi(7),
-        left = dpi(10),
-        right = dpi(10),
-        widget = wibox.container.margin
+  local pac_taglist = wibox.widget {
+    awful.widget.taglist {
+      screen = s,
+      filter = awful.widget.taglist.filter.all,
+      style = {shape = gears.shape.rectangle},
+      layout = {spacing = 0, layout = wibox.layout.fixed.horizontal},
+      widget_template = {
+        {
+          {id = 'icon_role', widget = wibox.widget.imagebox},
+          id = 'margin_role',
+          top = dpi(7),
+          bottom = dpi(7),
+          left = dpi(10),
+          right = dpi(10),
+          widget = wibox.container.margin
+        },
+        id = 'background_role',
+        widget = wibox.container.background,
+        create_callback = function(self, c3, index, objects)
+          update_tags(self, c3)
+          self:connect_signal('mouse::enter', function()
+                                if self.bg ~= beautiful.xbackground .. "60" then
+                                  self.backup = self.bg
+                                  self.has_backup = true
+                                end
+                                self.bg = beautiful.xbackground .. "60"
+          end)
+          self:connect_signal('mouse::leave', function()
+                                if self.has_backup then
+                                  self.bg = self.backup
+                                end
+          end)
+        end,
+        update_callback = function(self, c3, index, objects)
+          update_tags(self, c3)
+        end
       },
-      id = 'background_role',
-      widget = wibox.container.background,
-      create_callback = function(self, c3, index, objects)
-        update_tags(self, c3)
-        self:connect_signal('mouse::enter', function()
-          if self.bg ~= beautiful.xbackground .. "60" then
-            self.backup = self.bg
-            self.has_backup = true
-          end
-          self.bg = beautiful.xbackground .. "60"
-        end)
-        self:connect_signal('mouse::leave', function()
-          if self.has_backup then
-            self.bg = self.backup
-          end
-        end)
-      end,
-      update_callback = function(self, c3, index, objects)
-        update_tags(self, c3)
-      end
+      buttons = taglist_buttons
     },
-    buttons = taglist_buttons
+    layout = wibox.layout.fixed.horizontal
   }
-  return pac_taglist
+ return pac_taglist
 end
 
 return get_taglist

@@ -29,9 +29,9 @@ local tasklist = function(s)
         {
           {
             awful.widget.clienticon,
-            top = dpi(1),
-            bottom = dpi(1),
-            right = dpi(1),
+            top = dpi(3),
+            bottom = dpi(3),
+            right = dpi(3),
             layout = wibox.container.margin
           },
           shapes.horizontal_pad(6),
@@ -51,6 +51,7 @@ local tasklist = function(s)
       id = "background_role",
       widget = wibox.container.background
     }
-} end
+  }
+end
 
 return tasklist
