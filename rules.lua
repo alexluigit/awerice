@@ -41,7 +41,7 @@ ruled.client.connect_signal (
       }
     }
     ruled.client.append_rule {
-      rule = {class="Gimp-2.99"},
+      rule_any = { class = {"Gimp.*", "Inkscape" } },
       properties = {
         tag = "4",
         raise = true,
