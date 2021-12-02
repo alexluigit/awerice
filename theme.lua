@@ -33,8 +33,10 @@ theme.distro_logo = gears.surface.load_uncached(icon_path .. "distro.png")
 
 -- Fonts
 theme.font_name = "Sarasa Mono SC "
+theme.alter_font_name = "Victor Mono "
 theme.font = theme.font_name .. "10"
 theme.icon_font = theme.font_name .. "18"
+theme.doc_font = theme.alter_font_name .. "14"
 
 -- Background Colors
 theme.bg_dark = theme.xcolor0
@@ -109,8 +111,10 @@ theme.hotkeys_font = theme.font_name .. "15"
 theme.hotkeys_description_font = theme.font_name .. "15"
 theme.hotkeys_border_color = theme.xcolor0
 theme.hotkeys_modifiers_fg = theme.xcolor4
+theme.hotkeys_description_font = theme.doc_font
+-- theme.hotkeys_label_fg = theme.xcolor1
 theme.hotkeys_group_margin = dpi(18)
-theme.hotkeys_shape = shape.cutting_corner
+theme.hotkeys_shape = shapes.cutting_corner
 theme.hotkeys_border_width = 10
 
 -- Layout List
