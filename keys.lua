@@ -1,9 +1,8 @@
 local awful = require("awful")
 local W = require("helpers.window")
-local dt = require("helpers.doubletap")
+local K = require("helpers.key_event")
 local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
-local browser_class = require("beautiful").browser_class
-local altkey = "Mod1"
+local files = "floatwin -T -n danger-emacs emacsclient -e '\\(danger-new-frame\\)'"
 local hypkey = "Mod3"
 local modkey = "Mod4"
 
@@ -11,24 +10,20 @@ local modkey = "Mod4"
 awful.keyboard.append_global_keybindings(
   {
     -- Main
-    awful.key({}, "KP_Equal", function() awful.spawn("xdotool key Caps_Lock", false) end,
+    awful.key({}, "KP_Equal", function() K.simulate(0x42) end,
       {description = "Send Caps_Lock", group = "awesome"}),
     awful.key({}, "Insert", W.last_window,
       {description = "Focus last client", group = "awesome"}),
-    awful.key({}, "XF86Tools", function() dt({c="rofi -show combi"}, {c="rofi -show run"}) end,
+    awful.key({}, "XF86Tools", function() K.doubletap({c="rofi -show combi"}, {c="rofi -show run"}) end,
       {description = "App-launcher (single tap) Dmenu (double tap)", group = "awesome" }),
-    awful.key({}, "XF86Eject", function () dt({k="'\\[F12]'"},{c="powermenu"}) end,
+    awful.key({}, "XF86Eject", function () K.doubletap({k="'\\[F12]'"},{c="powermenu"}) end,
       {description = "F12 (single tap) Powermenu (double tap)", group = "launcher"}),
-    awful.key({altkey}, "n", function() W.if_match({class={browser_class}},{k="'\\[Down]'"},{k="'\\An'"}) end,
-      {description = "send down arrow or C-n", group = "awesome"}),
-    awful.key({altkey}, "p", function() W.if_match({class={browser_class}},{k="'\\[Up]'"},{k="'\\Ap'"}) end,
-      {description = "send up arrow or C-p", group = "awesome"}),
     -- Launcher
     awful.key({modkey}, "e", function () W.ror({class={"Emacs"}}, 1, true, {c="emacsclient -cn"}) end,
       {description = "Emacs", group = "launcher"}),
     awful.key({modkey}, "y", function () W.ror({name={".*YouTube Music"}}, 2, true, {c="bravectl music"}) end,
       {description = "Youtube music", group = "launcher"}),
-    awful.key({modkey}, "f", function() awful.spawn("floatwin -T -n danger-emacs emacsclient -e '\\(danger-new-frame\\)'", false) end,
+    awful.key({modkey}, "f", function() awful.spawn(files, false) end,
       {description = "File manager", group = "launcher"}),
     awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
       {description = "Web browser", group = "launcher" }),
@@ -43,7 +38,7 @@ awful.keyboard.append_global_keybindings(
     awful.key({modkey}, "q", function() client.focus:kill() end,
       {description = "close window", group = "launcher"}),
     -- Media Keys
-    awful.key({}, "F1", function() dt({k="'\\[F1]'"}, {a=W.hotkeys}) end,
+    awful.key({}, "F1", function() K.doubletap({k="'\\[F1]'"}, {a=W.hotkeys}) end,
       {description = "show help", group = "media"}),
     awful.key({}, "F7", function() awful.spawn("playerctl previous", false) end,
       {description = "playerctl previous", group = "media"}),

@@ -1,4 +1,5 @@
 local awful = require("awful")
+local execute = require("helpers.execute")
 
 local _window = {}
 
@@ -80,20 +81,6 @@ function _window.toggle_maximize (c)
   c:raise()
 end
 
-local _run_cmd = function (t)
-  local cmd = nil
-  local awe_cmd
-  local awe_args
-  if t.k then
-    cmd = "xvkbd -xsendevent -text " .. t.k
-  elseif t.c then
-    cmd = t.c
-  else
-    awe_cmd = t.a; awe_arg = t.A
-  end
-  if cmd then awful.spawn(cmd, false) else awe_cmd(awe_arg) end
-end
-
 function _window.toggle_floating (c)
   local t = screen.primary.selected_tag
   for _, tc in ipairs(t:clients()) do tc.maximized = false end
@@ -112,9 +99,9 @@ end
 function _window.if_match (rule, match, no_match)
   local c = client.focus
   if c and awful.rules.match_any(c, rule) then
-    _run_cmd(match)
+    execute(match)
   else
-    _run_cmd(no_match)
+    execute(no_match)
   end
 end
 
@@ -127,7 +114,7 @@ function _window.ror (rule, tag, match, no_match)
   if focus and awful.rules.match_any(focus, rule) then
     if type(match) == "boolean" then
       if match then _window.last_window() end
-    else _run_cmd(match)
+    else execute(match)
     end
   else
     for _, c in ipairs(s.tags[target_tag]:clients()) do
@@ -141,7 +128,7 @@ function _window.ror (rule, tag, match, no_match)
       client.focus = has_instance
       has_instance:raise()
     else
-      _run_cmd(no_match)
+      execute(no_match)
     end
   end
 end
