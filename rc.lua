@@ -4,6 +4,7 @@ require("window")
 require("keys")
 require("rules")
 require("ears")
+require("notifications")
 
 collectgarbage("setpause", 110)
 collectgarbage("setstepmul", 1000)
