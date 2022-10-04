@@ -1,8 +1,9 @@
 local awful = require("awful")
 local W = require("helpers.window")
 local K = require("helpers.key_event")
-local flameshots = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
-local files = "floatwin -T -n danger-emacs emacsclient -e '\\(danger-new-frame\\)'"
+local flameshots_selection = "flameshot gui -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
+local flameshots_full = "flameshot full -p " .. os.getenv("HOME") .. "/Pictures/screenshots"
+local files = "floatwin -T -n dirvish emacsclient -cn --eval '\\(dirvish\\ \"~/\"\\)'"
 local hypkey = "Mod3"
 local modkey = "Mod4"
 
@@ -27,14 +28,18 @@ awful.keyboard.append_global_keybindings(
       {description = "File manager", group = "launcher"}),
     awful.key({modkey}, "w", function() awful.spawn("bravectl web", false) end,
       {description = "Web browser", group = "launcher" }),
-    awful.key({modkey}, "u", function () awful.spawn("murl -P 1088 -f toggle", false) end,
+    awful.key({modkey}, "a", function() awful.spawn("bravectl incognito", false) end,
+      {description = "Incognito browser", group = "launcher" }),
+    awful.key({modkey}, "u", function () awful.spawn("murl -P 10801 -f toggle", false) end,
       {description = "murl", group = "launcher"}),
     awful.key({modkey}, "t", function() awful.spawn("floatwin -T alacritty", false) end,
       {description = "Terminal", group = "launcher"}),
     awful.key({modkey}, "c", function() awful.spawn("xdotool click 1", false) end,
       {description = "Mouse click", group = "launcher"}),
-    awful.key({modkey}, "s", function() awful.spawn(flameshots, false) end,
-      {description = "Screenshots", group = "launcher"}),
+    awful.key({modkey}, "s", function() awful.spawn(flameshots_selection, false) end,
+      {description = "Take screenshots by selection", group = "launcher"}),
+    awful.key({modkey, "Mod1"}, "s", function() awful.spawn(flameshots_full, false) end,
+      {description = "Take full screenshot", group = "launcher"}),
     awful.key({modkey}, "q", function() client.focus:kill() end,
       {description = "close window", group = "launcher"}),
     -- Media Keys

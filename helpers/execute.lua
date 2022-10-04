@@ -3,7 +3,7 @@ local awful = require("awful")
 local execute = function (t)
   if t.k then
     if type(t.k) == "string" then
-      awful.span("xvkbd -xsendevent -text " .. t.k)
+      awful.spawn("xvkbd -xsendevent -text " .. t.k)
     else
       root.fake_input("key_press", t.k)
       root.fake_input("key_release", t.k)
