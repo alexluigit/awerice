@@ -9,7 +9,10 @@ local modkey = "Mod4"
 -- Set the layouts
 tag.connect_signal("request::default_layouts", function()
   awful.layout.append_default_layouts({
-      awful.layout.suit.tile, awful.layout.suit.fair
+      awful.layout.suit.tile,
+      awful.layout.suit.spiral.dwindle,
+      awful.layout.suit.tile.right,
+      awful.layout.suit.fair
   })
 end)
 
